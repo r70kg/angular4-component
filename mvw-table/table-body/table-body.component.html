@@ -1,0 +1,43 @@
+<nz-table [nzLoading]="loading" #rowSelectionTable [nzFrontPagination]="frontPagination"
+          [nzData]="(modelData)?.listOfAllData"
+          [nzScroll]="scrollConfig"
+          [nzWidthConfig]="widthConfig"
+          [nzPageSizeOptions]="pageSizeOptions"
+          [nzShowSizeChanger]="showSizeChanger"
+          (nzPageSizeChange)="onPageSizeChange($event)"
+          [nzShowTotal]="totalTemplate"
+          [nzLoadingDelay]="loadingDelay"
+          [nzShowPagination]="showPagination"
+          [nzBordered]="bordered"
+          (nzPageIndexChange)="onCurrentPageIndexChange($event)"
+          [nzPageIndex]="(modelData)?.currentPage"
+          [nzPageSize]="modelData?.pageSize"
+          [nzTotal]="modelData?.totalCount">
+  <ng-template #totalTemplate let-total> 共 {{ total }} 条</ng-template>
+  <thead>
+  <tr *ngFor="let item of config.column">
+    <th *ngFor="let subItem of item" [attr.rowspan]="subItem.rowspan" [attr.colspan]="subItem.colspan"
+        [nzRight]="subItem.right"
+        [nzWidth]="subItem.width"
+        [nzLeft]="subItem.left" [innerHTML]="subItem.title || subItem.field | safeHTML"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of rowSelectionTable.data;let key=index;trackBy:trackFunc">
+    <td *ngFor="let field of tableBodyConfig" [ngSwitch]="field.type" [nzLeft]="field.left"
+        [nzRight]="field.right">
+      <ng-template ngSwitchCase="text">
+        {{item[field["id"]]}}
+      </ng-template>
+      <ng-template ngSwitchCase="link">
+        <a href="javascript:void(0);" (click)="field.click(item)"> {{item[field["id"]]}}</a>
+      </ng-template>
+      <ng-template ngSwitchCase="button-link">
+        <a
+          *ngFor="let btn of field.buttons"
+          href="javascript:void(0);" (click)="btn.click(item)"> {{btn["text"]}}</a>
+      </ng-template>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

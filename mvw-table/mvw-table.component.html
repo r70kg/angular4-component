@@ -1,0 +1,14 @@
+<div class="mvw-table-container" #tableContainer>
+  <ng-content #content></ng-content>
+  <app-table-query
+      #tableQuery
+      [config]="config.query"
+
+  ></app-table-query>
+  <app-table-body
+      #tableBody
+      [config]="config"
+      [modelData]="modelData"
+      [scrollHeight]="scrollHeight"
+  ></app-table-body>
+</div>

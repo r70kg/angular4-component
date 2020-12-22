@@ -1,0 +1,16 @@
+.table-query .ant-form-item{
+  margin-bottom: 6px;
+}
+
+.table-query button {
+  margin-top: 4px;
+  margin-right: 8px;
+}
+.table-query .button-group nz-form-item {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+
+
+

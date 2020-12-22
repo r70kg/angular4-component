@@ -1,0 +1,41 @@
+<form nz-form [formGroup]="validateForm" #form class="table-query">
+  <div nz-row [nzGutter]="24" *ngFor=" let query of config">
+    <div *ngFor="let field of query" nz-col [nzSpan]="field.span" [ngClass]="field.class">
+      <nz-form-item>
+        <ng-container [ngSwitch]="field.type">
+          <ng-template ngSwitchCase="select">
+            <nz-form-label [nzSpan]="field.labelSpan" [nzFor]="field.id">{{field.label}}</nz-form-label>
+            <nz-form-control [nzSpan]="field.controlSpan">
+              <nz-select
+                [nzPlaceHolder]="field.placeholder || '请选择'"
+                nzShowSearch
+                nzAllowClear
+                (ngModelChange)="onModelChange(field,query,$event)"
+                [formControlName]="field.id">
+                <nz-option [nzValue]="item.id" [nzLabel]="item.name"
+                           *ngFor="let item of field.option;let key= index;">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </ng-template>
+          <ng-template ngSwitchCase="text">
+            <nz-form-label [nzSpan]="field.labelSpan" [nzFor]="field.id">{{field.label}}</nz-form-label>
+            <nz-form-control [nzSpan]="field.controlSpan">
+              <input nz-input [formControlName]="field.id" [id]="field.id" [placeholder]="field.placeholder"/>
+            </nz-form-control>
+
+          </ng-template>
+          <ng-template ngSwitchCase="button">
+            <button *ngFor="let btn of field.buttons;let i = index; " nz-button [nzType]="btn.btnType"
+                    (click)="onButtonClick(btn.click)(this,field.buttons,i)">
+              <i nz-icon [nzType]="btn.iconType" nzTheme="outline"></i>{{btn.label}}
+            </button>
+          </ng-template>
+
+        </ng-container>
+
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+
